@@ -50,4 +50,8 @@ make install
 
 # Set up additional directories and copy configuration
 mkdir -p /ganesha-extra/etc/dbus-1/system.d
+<<<<<<< HEAD
 cp src/scripts/ganeshactl/org.ganesha.nfsd.conf /ganesha-extra/etc/dbus-1/system.d/
+=======
+cp src/scripts/ganeshactl/org.ganesha.nfsd.conf /ganesha-extra/etc/dbus-1/system.d/
+>>>>>>> 8cebb59 (feat: add build scripts for nfs-ganesha)
