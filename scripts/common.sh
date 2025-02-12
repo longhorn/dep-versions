@@ -20,7 +20,7 @@ function get_branch() {
   local branch=$(convert_version_to_major_minor_x "$version")
 
   # Fetch versions.json from the appropriate branch; fall back to the main branch if the request fails.
-  wget -q "https://raw.githubusercontent.com/longhorn/dep-versions/${branch}/versions.json" -O /versions.json
+  curl --fail -s -o /dev/null https://raw.githubusercontent.com/longhorn/dep-versions/${branch}/versions.json
   if [ $? -eq 0 ]; then
     echo "${branch}"
   else
