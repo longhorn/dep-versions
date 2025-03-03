@@ -2,6 +2,7 @@
     "liblonghorn": {
         "repo": "https://github.com/rancher/liblonghorn.git",
         "commit": "53d1c063b95efc8d949b095bd4bf04637230265f",
+        "tag": "v1.0.0",
         "description": "liblonghorn is a library that provides a simple interface to interact with Longhorn."
     },
     "tgt": {
