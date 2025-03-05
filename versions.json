@@ -2,41 +2,49 @@
     "liblonghorn": {
         "repo": "https://github.com/rancher/liblonghorn.git",
         "commit": "53d1c063b95efc8d949b095bd4bf04637230265f",
+        "tag": "v1.0.0",
         "description": "liblonghorn is a library that provides a simple interface to interact with Longhorn."
     },
     "tgt": {
         "repo": "https://github.com/rancher/tgt.git",
         "commit": "3a8bc4823b5390e046f7aa8231ed262c0365c42c",
+        "tag": "v1.0.79+3a8bc48",
         "description": "tgtd is a user-space daemon that provides SCSI target support."
     },
     "spdk": {
         "repo": "https://github.com/longhorn/spdk.git",
         "commit": "42b649ffc6dcbc1797f32db4b70716b9c602ee39",
+        "tag": "v24.09+42b649f",
         "description": "SPDK is a storage performance development kit."
     },
     "go-spdk-helper": {
         "repo": "https://github.com/longhorn/go-spdk-helper.git",
         "commit": "eabe34a4219e2defc2426b5f4972a9e9297a59fa",
+        "tag": "v0.0.1+eabe34a",
         "description": "go-spdk-helper is a Go wrapper for SPDK."
     },
     "libjsonc": {
         "repo": "https://github.com/json-c/json-c.git",
         "commit": "b4c371fa0cbc4dcbaccc359ce9e957a22988fb34",
+        "tag": "json-c-0.17-20230812",
         "description": "JSON-C is a JSON implementation in C."
     },
     "nvme-cli": {
         "repo": "https://github.com/linux-nvme/nvme-cli.git",
         "commit": "eeaa08c9a0e9184f3889df0bff3d2a23db6d6294",
+        "tag": "v2.10.2",
         "description": "nvme-cli is a utility for managing NVMe devices."
     },
     "nfs-ganesha": {
         "repo": "https://github.com/rancher/nfs-ganesha.git",
         "commit": "faaab3b04fbcba0aa5b2c1f0ce14518d8f72fa23",
+        "tag": "v6.5+faaab3b",
         "description": "NFS-Ganesha is an NFSv3,v4,v4.1 fileserver that runs inside the longhorn-shared-manager pod."
     },
     "ntirpc": {
         "repo": "https://github.com/nfs-ganesha/ntirpc.git",
         "commit": "d2b7209f82fac44fe95731ce98740f793e9e98a0",
+        "tag": "v6.3",
         "description": "ntirpc is a new transport-agnostic RPC library that is being developed as part of the NFS-Ganesha project."
     }
 }
