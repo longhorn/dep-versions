@@ -8,19 +8,24 @@
     "tgt": {
         "repo": "https://github.com/rancher/tgt.git",
         "commit": "3a8bc4823b5390e046f7aa8231ed262c0365c42c",
-        "tag": "v1.0.79+3a8bc48",
+        "tag": "v1.0.79+1",
         "description": "tgtd is a user-space daemon that provides SCSI target support."
     },
     "spdk": {
         "repo": "https://github.com/longhorn/spdk.git",
+<<<<<<< Updated upstream
         "commit": "42b649ffc6dcbc1797f32db4b70716b9c602ee39",
-        "tag": "v24.09+42b649f",
+        "tag": "v24.09.0.1",
+=======
+        "commit": "9ef70cbbcf7913c203eae73cd1e282540b8df822",
+        "tag": "v24.09.0+1",
+>>>>>>> Stashed changes
         "description": "SPDK is a storage performance development kit."
     },
     "go-spdk-helper": {
         "repo": "https://github.com/longhorn/go-spdk-helper.git",
         "commit": "eabe34a4219e2defc2426b5f4972a9e9297a59fa",
-        "tag": "v0.0.1+eabe34a",
+        "tag": "v0.0.1",
         "description": "go-spdk-helper is a Go wrapper for SPDK."
     },
     "libjsonc": {
@@ -38,7 +43,7 @@
     "nfs-ganesha": {
         "repo": "https://github.com/rancher/nfs-ganesha.git",
         "commit": "faaab3b04fbcba0aa5b2c1f0ce14518d8f72fa23",
-        "tag": "v6.5+faaab3b",
+        "tag": "v6.5.0+1",
         "description": "NFS-Ganesha is an NFSv3,v4,v4.1 fileserver that runs inside the longhorn-shared-manager pod."
     },
     "ntirpc": {
@@ -46,5 +51,33 @@
         "commit": "d2b7209f82fac44fe95731ce98740f793e9e98a0",
         "tag": "v6.3",
         "description": "ntirpc is a new transport-agnostic RPC library that is being developed as part of the NFS-Ganesha project."
+    },
+    "csi-attacher": {
+        "repo": "https://github.com/kubernetes-csi/external-attacher.git",
+        "tag": "v4.8.0"
+    },
+    "csi-provisioner": {
+        "repo": "https://github.com/kubernetes-csi/external-provisioner.git",
+        "tag": "v5.1.0"
+    },
+    "csi-resizer": {
+        "repo": "https://github.com/kubernetes-csi/external-resizer.git",
+        "tag": "v1.13.1"
+    },
+    "csi-snapshotter": {
+        "repo": "https://github.com/kubernetes-csi/external-snapshotter.git",
+        "tag": "v8.2.0"
+    },
+    "node-driver-registrar": {
+        "repo": "https://github.com/kubernetes-csi/node-driver-registrar.git",
+        "tag": "v2.13.0"
+    },
+    "livenessprobe": {
+        "repo": "https://github.com/kubernetes-csi/livenessprobe.git",
+        "tag": "v2.15.0"
+    },
+    "support-bundle-kit": {
+        "repo": "https://github.com/rancher/support-bundle-kit.git",
+        "tag": "v0.0.53"
     }
 }
