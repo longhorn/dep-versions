@@ -47,7 +47,7 @@ jobs:
         repository: longhorn/longhorn
         ref: ${{ env.LONGHORN_BRANCH }}
 
-    - name: Update crds.yaml and manifests
+    - name: Create longhorn/longhorn PR
       shell: bash
       run: |
         curl -L https://raw.githubusercontent.com/longhorn/dep-versions/refs/heads/${{ github.event.pull_request.base.ref }}/versions.json -o /tmp/versions.json
@@ -99,8 +99,8 @@ jobs:
         signoff: true
         author: ${{ steps.get_head_commit_name.outputs.commit_name }} <${{ steps.get_head_commit_email.outputs.commit_email }}>
         committer: ${{ steps.get_head_commit_name.outputs.commit_name }} <${{ steps.get_head_commit_email.outputs.commit_email }}>
-        commit-message: "chore(crd): update dependency versions (PR longhorn/dep-versions#${{ github.event.pull_request.number}})"
-        title: "chore(crd): update dependency versions (PR longhorn/dep-versions#${{ github.event.pull_request.number}})"
+        commit-message: "chore(chart): update dependency versions (PR longhorn/dep-versions#${{ github.event.pull_request.number}})"
+        title: "chore(chart): update dependency versions (PR longhorn/dep-versions#${{ github.event.pull_request.number}})"
         body: |
           This PR updates dependency versions.
           It was triggered by longhorn/dep-versions#${{ github.event.pull_request.number}}.
