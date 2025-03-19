@@ -1,0 +1,106 @@
+name: Create Dependency Version Update PR in Longhorn Repo
+
+on:
+  pull_request_target:
+    types: [closed]
+    branches:
+      - main
+      - "v*"
+
+jobs:
+  create-pull-request:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install Dependencies
+      run: |
+        sudo apt update -y
+        sudo apt install -y jq wget
+        wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+        sudo mv yq_linux_amd64 /usr/local/bin/yq
+        sudo chmod +x /usr/local/bin/yq
+
+    - name: Prepare Packages
+      run: |
+        curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+        chmod 700 get_helm.sh
+        ./get_helm.sh
+
+    - name: Log triggering PR information
+      shell: bash
+      run: |
+        echo "Triggered by PR: #${{ github.event.pull_request.number }}"
+        echo "PR Title: ${{ github.event.pull_request.title }}"
+        echo "PR URL: ${{ github.event.pull_request.html_url }}"
+        echo "PR was merged into branch: ${{ github.event.pull_request.base.ref }}"
+
+    - name: Set ref
+      run: |
+        if [ "${{ github.event.pull_request.base.ref }}" = "main" ]; then
+          echo "LONGHORN_BRANCH=master" >> $GITHUB_ENV
+        else
+          echo "LONGHORN_BRANCH=${{ github.event.pull_request.base.ref }}" >> $GITHUB_ENV
+        fi
+
+    - uses: actions/checkout@v4
+      with:
+        repository: longhorn/longhorn
+        ref: ${{ env.LONGHORN_BRANCH }}
+
+    - name: Update crds.yaml and manifests
+      shell: bash
+      run: |
+        curl -L https://raw.githubusercontent.com/longhorn/dep-versions/refs/heads/${{ github.event.pull_request.base.ref }}/versions.json -o /tmp/versions.json
+        cat /tmp/versions.json
+
+        TAG=${{ env.LONGHORN_BRANCH }}-head
+
+        COMPONENTS=(backing-image-manage longhorn-engine longhorn-instance-manager longhorn-manager longhorn-share-manager longhorn-ui longhorn-cli)
+        DEPS=("csi-attacher" "csi-provisioner" "csi-resizer" "csi-snapshotter" "node-driver-registrar" "livenessprobe" "support-bundle-kit")
+
+        IMAGE_FILE="deploy/longhorn-images.txt"
+
+        rm -rf $IMAGE_FILE
+
+        for component in "${COMPONENTS[@]}"; do
+            image_name="longhornio/$component"
+            echo "$image_name:$TAG" >> $IMAGE_FILE
+        done
+
+        for dep in "${DEPS[@]}"
+        do
+            tag=$(jq -r --arg dep "$dep" '.[$dep].tag' /tmp/versions.json)
+            echo "longhornio/$dep:$tag" >> $IMAGE_FILE
+        done
+
+        cat $IMAGE_FILE
+
+        bash scripts/update-chart-readme.sh || { echo "Failed: update-chart-readme.sh"; exit 1; }
+        bash scripts/update-chart-questions.sh || { echo "Failed: update-chart-questions.sh"; exit 1; }
+        bash scripts/update-chart-values.sh || { echo "Failed: update-chart-values.sh"; exit 1; }
+        bash scripts/generate-longhorn-yaml.sh || { echo "Failed: generate-longhorn-yaml.sh"; exit 1; }
+
+    - name: Get Head Commit Name
+      id: get_head_commit_name
+      run: echo "::set-output name=commit_name::$(git log -1 --pretty=format:'%an')"
+
+    - name: Get Head Commit Email
+      id: get_head_commit_email
+      run: echo "::set-output name=commit_email::$(git log -1 --pretty=format:'%ae')"
+
+    - name: Create Pull Request
+      id: cpr
+      uses: peter-evans/create-pull-request@v7
+      with:
+        token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+        branch: "update-deps-version-${{ github.event.pull_request.number }}"
+        delete-branch: true
+        sign-commits: true
+        signoff: true
+        author: ${{ steps.get_head_commit_name.outputs.commit_name }} <${{ steps.get_head_commit_email.outputs.commit_email }}>
+        committer: ${{ steps.get_head_commit_name.outputs.commit_name }} <${{ steps.get_head_commit_email.outputs.commit_email }}>
+        commit-message: "chore(crd): update dependency versions (PR longhorn/dep-versions#${{ github.event.pull_request.number}})"
+        title: "chore(crd): update dependency versions (PR longhorn/dep-versions#${{ github.event.pull_request.number}})"
+        body: |
+          This PR updates dependency versions.
+          It was triggered by longhorn/dep-versions#${{ github.event.pull_request.number}}.
