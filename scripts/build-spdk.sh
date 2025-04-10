@@ -45,12 +45,12 @@ pip3 install -r ./scripts/pkgdep/requirements.txt
 # Build and install based on architecture
 case "$ARCH" in
     amd64)
-        ./configure --target-arch=nehalem --disable-tests --disable-unit-tests --disable-examples
+        ./configure --target-arch=nehalem --disable-tests --disable-unit-tests --disable-examples --enable-debug
         make -j"$(nproc)"
         make install
         ;;
     arm64)
-        ./configure --target-arch=native --disable-tests --disable-unit-tests --disable-examples
+        ./configure --target-arch=native --disable-tests --disable-unit-tests --disable-examples --enable-debug
         DPDKBUILD_FLAGS="-Dplatform=generic" make -j"$(nproc)"
         make install
         ;;

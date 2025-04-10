@@ -1,0 +1,69 @@
+name: Trigger Component Image Builds
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to build'
+        required: true
+        default: 'main'
+  push:
+    branches:
+      - main
+      - "v*"
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
+      - "v*"
+
+jobs:
+  trigger-builds:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set target ref
+        id: set-ref
+        run: |
+          branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
+          # If trigger by push or pull_request, Determine which branch to use for the downstream workflow
+          if [ "${{ github.event_name }}" = "push" ] || [ "${{ github.event_name }}" = "pull_request" ]; then
+            if [ "$branch" = "main" ]; then
+              echo "ref=master" >> $GITHUB_OUTPUT
+            else
+              echo "ref=$branch" >> $GITHUB_OUTPUT
+            fi
+          else
+            # If trigger by workflow_dispatch, use the input branch
+            echo "ref=${{ github.event.inputs.branch }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Trigger build in longhorn-manager
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+          workflow: build.yml
+          repo: longhorn/longhorn-manager
+          ref: ${{ steps.set-ref.outputs.ref }}
+
+      - name: Trigger build in longhorn-engine
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+          workflow: build.yml
+          repo: longhorn/longhorn-engine
+          ref: ${{ steps.set-ref.outputs.ref }}
+
+      - name: Trigger build in longhorn-share-manager
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+          workflow: build.yml
+          repo: longhorn/longhorn-share-manager
+          ref: ${{ steps.set-ref.outputs.ref }}
+
+      - name: Trigger build in longhorn-instance-manager
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+          workflow: build.yml
+          repo: longhorn/longhorn-instance-manager
+          ref: ${{ steps.set-ref.outputs.ref }}
