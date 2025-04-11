@@ -39,7 +39,7 @@ jobs:
       - name: Trigger build in longhorn-manager
         uses: benc-uk/workflow-dispatch@v1
         with:
-          token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+          token: ${{ secrets.CUSTOM_GITHUB_ACTION_TOKEN }}
           workflow: build.yml
           repo: longhorn/longhorn-manager
           ref: ${{ steps.set-ref.outputs.ref }}
@@ -47,7 +47,7 @@ jobs:
       - name: Trigger build in longhorn-engine
         uses: benc-uk/workflow-dispatch@v1
         with:
-          token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+          token: ${{ secrets.CUSTOM_GITHUB_ACTION_TOKEN }}
           workflow: build.yml
           repo: longhorn/longhorn-engine
           ref: ${{ steps.set-ref.outputs.ref }}
@@ -55,7 +55,7 @@ jobs:
       - name: Trigger build in longhorn-share-manager
         uses: benc-uk/workflow-dispatch@v1
         with:
-          token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+          token: ${{ secrets.CUSTOM_GITHUB_ACTION_TOKEN }}
           workflow: build.yml
           repo: longhorn/longhorn-share-manager
           ref: ${{ steps.set-ref.outputs.ref }}
@@ -63,7 +63,7 @@ jobs:
       - name: Trigger build in longhorn-instance-manager
         uses: benc-uk/workflow-dispatch@v1
         with:
-          token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+          token: ${{ secrets.CUSTOM_GITHUB_ACTION_TOKEN }}
           workflow: build.yml
           repo: longhorn/longhorn-instance-manager
           ref: ${{ steps.set-ref.outputs.ref }}
