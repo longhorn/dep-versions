@@ -19,7 +19,7 @@
     },
     "go-spdk-helper": {
         "repo": "https://github.com/longhorn/go-spdk-helper.git",
-        "commit": "eabe34a4219e2defc2426b5f4972a9e9297a59fa",
+        "commit": "52d1caf5f7a7470e0e57d37976269315cf5172f9",
         "tag": "v0.0.1",
         "description": "go-spdk-helper is a Go wrapper for SPDK."
     },
