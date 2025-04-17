@@ -39,7 +39,7 @@ sed -i '/python3-pyelftools/d' ./scripts/pkgdep/sles.sh
 sed -i 's/python3-/python311-/g' ./scripts/pkgdep/sles.sh
 
 # Install dependencies
-./scripts/pkgdep.sh
+./scripts/pkgdep.sh --uring
 pip3 install -r ./scripts/pkgdep/requirements.txt
 
 # Build and install based on architecture
