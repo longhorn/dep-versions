@@ -57,7 +57,7 @@
     },
     "csi-resizer": {
         "repo": "https://github.com/kubernetes-csi/external-resizer.git",
-        "tag": "v1.13.1"
+        "tag": "v1.13.2"
     },
     "csi-snapshotter": {
         "repo": "https://github.com/kubernetes-csi/external-snapshotter.git",
