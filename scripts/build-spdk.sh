@@ -38,19 +38,23 @@ git submodule update --init
 sed -i '/python3-pyelftools/d' ./scripts/pkgdep/sles.sh
 sed -i 's/python3-/python311-/g' ./scripts/pkgdep/sles.sh
 
-# Install dependencies
-./scripts/pkgdep.sh --uring
-pip3 install -r ./scripts/pkgdep/requirements.txt
-
 # Build and install based on architecture
 case "$ARCH" in
     amd64)
+        # Install dependencies
+       ./scripts/pkgdep.sh --uring
+        pip3 install -r ./scripts/pkgdep/requirements.txt
+        # Build SPDK binary
         ./configure --target-arch=nehalem --disable-tests --disable-unit-tests --disable-examples --with-ublk --enable-debug
         make -j"$(nproc)"
         make install
         ;;
     arm64)
-        ./configure --target-arch=native --disable-tests --disable-unit-tests --disable-examples --with-ublk --enable-debug
+        # Install dependencies
+        CFLAGS="-march=armv8-a" CXXFLAGS="-march=armv8-a" ./scripts/pkgdep.sh --uring
+        pip3 install -r ./scripts/pkgdep/requirements.txt
+        # Build SPDK binary
+        CFLAGS="-march=armv8-a" CXXFLAGS="-march=armv8-a" ./configure --target-arch=armv8-a --disable-tests --disable-unit-tests --disable-examples --with-ublk --enable-debug
         DPDKBUILD_FLAGS="-Dplatform=generic" make -j"$(nproc)"
         make install
         ;;
