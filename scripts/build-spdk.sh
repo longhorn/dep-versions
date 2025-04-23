@@ -45,7 +45,7 @@ case "$ARCH" in
        ./scripts/pkgdep.sh --uring
         pip3 install -r ./scripts/pkgdep/requirements.txt
         # Build SPDK binary
-        ./configure --target-arch=nehalem --disable-tests --disable-unit-tests --disable-examples --with-ublk --enable-debug
+        ./configure --target-arch=nehalem --disable-tests --disable-unit-tests --disable-examples --with-ublk
         make -j"$(nproc)"
         make install
         ;;
@@ -54,7 +54,7 @@ case "$ARCH" in
         CFLAGS="-march=armv8-a" CXXFLAGS="-march=armv8-a" ./scripts/pkgdep.sh --uring
         pip3 install -r ./scripts/pkgdep/requirements.txt
         # Build SPDK binary
-        CFLAGS="-march=armv8-a" CXXFLAGS="-march=armv8-a" ./configure --target-arch=armv8-a --disable-tests --disable-unit-tests --disable-examples --with-ublk --enable-debug
+        CFLAGS="-march=armv8-a" CXXFLAGS="-march=armv8-a" ./configure --target-arch=armv8-a --disable-tests --disable-unit-tests --disable-examples --with-ublk
         DPDKBUILD_FLAGS="-Dplatform=generic" make -j"$(nproc)"
         make install
         ;;
