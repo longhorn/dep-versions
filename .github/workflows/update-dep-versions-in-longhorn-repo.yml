@@ -56,7 +56,7 @@ jobs:
         TAG=${{ env.LONGHORN_BRANCH }}-head
 
         COMPONENTS=(backing-image-manager longhorn-engine longhorn-instance-manager longhorn-manager longhorn-share-manager longhorn-ui longhorn-cli)
-        DEPS=("csi-attacher" "csi-provisioner" "csi-resizer" "csi-snapshotter" "node-driver-registrar" "livenessprobe" "support-bundle-kit")
+        DEPS=("csi-attacher" "csi-provisioner" "csi-resizer" "csi-snapshotter" "csi-node-driver-registrar" "livenessprobe" "support-bundle-kit")
 
         IMAGE_FILE="deploy/longhorn-images.txt"
 
