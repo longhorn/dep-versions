@@ -35,6 +35,12 @@
         "tag": "v2.10.2",
         "description": "nvme-cli is a utility for managing NVMe devices."
     },
+    "libnvme": {
+        "repo": "https://github.com/linux-nvme/libnvme.git",
+        "commit": "dd51fa8550564c93436423a4d8ed4be92ae50290",
+        "tag": "v1.10",
+        "description": "libnvme is a library for managing NVMe devices."
+    },
     "nfs-ganesha": {
         "repo": "https://github.com/rancher/nfs-ganesha.git",
         "commit": "faaab3b04fbcba0aa5b2c1f0ce14518d8f72fa23",
