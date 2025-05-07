@@ -19,11 +19,11 @@ function get_branch() {
   local version=$(cat "$version_file")
   local branch=$(convert_version_to_major_minor_x "$version")
 
-  # Fetch versions.json from the appropriate branch; fall back to the main branch if the request fails.
+  # Fetch versions.json from the appropriate branch; fall back to the master branch if the request fails.
   curl --fail -s -o /dev/null https://raw.githubusercontent.com/longhorn/dep-versions/${branch}/versions.json
   if [ $? -eq 0 ]; then
     echo "${branch}"
   else
-    echo "main"
+    echo "master"
   fi
 }
