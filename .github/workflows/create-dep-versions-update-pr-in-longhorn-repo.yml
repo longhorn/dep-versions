@@ -50,24 +50,39 @@ jobs:
     - name: Create longhorn/longhorn PR
       shell: bash
       run: |
+        COMPONENTS=(backing-image-manager longhorn-engine longhorn-instance-manager longhorn-manager longhorn-share-manager longhorn-ui longhorn-cli)
+        EXTERNALS=("csi-attacher" "csi-provisioner" "csi-resizer" "csi-snapshotter" "csi-node-driver-registrar" "livenessprobe" "support-bundle-kit")
+
+        IMAGE_FILE="deploy/longhorn-images.txt"
+
+        component_images=()
+
         curl -L https://raw.githubusercontent.com/longhorn/dep-versions/refs/heads/${{ github.event.pull_request.base.ref }}/versions.json -o /tmp/versions.json
         cat /tmp/versions.json
 
         TAG=${{ env.LONGHORN_BRANCH }}-head
+  
+        # Extract component images from the $IMAGE_FILE
+        while IFS= read -r line; do
+          for component in "${COMPONENTS[@]}"; do
+            if [[ "$line" == *"$component"* ]]; then
+              component_images+=("$line")
+              break
+            fi
+          done
+        done < "$IMAGE_FILE"
 
-        COMPONENTS=(backing-image-manager longhorn-engine longhorn-instance-manager longhorn-manager longhorn-share-manager longhorn-ui longhorn-cli)
-        DEPS=("csi-attacher" "csi-provisioner" "csi-resizer" "csi-snapshotter" "csi-node-driver-registrar" "livenessprobe" "support-bundle-kit")
-
-        IMAGE_FILE="deploy/longhorn-images.txt"
+        echo "Component images: ${component_images[@]}"
 
         rm -rf $IMAGE_FILE
 
-        for component in "${COMPONENTS[@]}"; do
-            image_name="longhornio/$component"
-            echo "$image_name:$TAG" >> $IMAGE_FILE
+        # Copy the component images to the $IMAGE_FILE
+        for image in "${component_images[@]}"; do
+          echo $image >> $IMAGE_FILE
         done
 
-        for dep in "${DEPS[@]}"
+        # Add the external images to the $IMAGE_FILE
+        for dep in "${EXTERNALS[@]}"
         do
             tag=$(jq -r --arg dep "$dep" '.[$dep].tag' /tmp/versions.json)
             echo "longhornio/$dep:$tag" >> $IMAGE_FILE
