@@ -5,15 +5,15 @@ on:
       branch:
         description: 'Branch to build'
         required: true
-        default: 'main'
+        default: 'master'
   push:
     branches:
-      - main
+      - master
       - "v*"
   pull_request:
     types: [opened, synchronize, reopened]
     branches:
-      - main
+      - master
       - "v*"
 
 jobs:
