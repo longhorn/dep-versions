@@ -14,7 +14,7 @@
     "spdk": {
         "repo": "https://github.com/longhorn/spdk.git",
         "commit": "3028cc58ac215768d3b89298d63d38564d7d6f95",
-        "tag": "v24.09.0+3",
+        "tag": "v24.09.0+4",
         "description": "SPDK is a storage performance development kit."
     },
     "go-spdk-helper": {
@@ -44,7 +44,7 @@
     "nfs-ganesha": {
         "repo": "https://github.com/rancher/nfs-ganesha.git",
         "commit": "95fdbc3c580d6e37f5f8422cb359119cc3c5783b",
-        "tag": "v6.5.0+2",
+        "tag": "v6.5.0+3",
         "description": "NFS-Ganesha is an NFSv3,v4,v4.1 fileserver that runs inside the longhorn-shared-manager pod."
     },
     "ntirpc": {
