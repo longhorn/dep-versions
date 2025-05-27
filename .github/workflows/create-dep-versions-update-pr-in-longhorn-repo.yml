@@ -112,8 +112,8 @@ jobs:
         delete-branch: true
         sign-commits: true
         signoff: true
-        author: ${{ steps.get_head_commit_name.outputs.commit_name }} <${{ steps.get_head_commit_email.outputs.commit_email }}>
-        committer: ${{ steps.get_head_commit_name.outputs.commit_name }} <${{ steps.get_head_commit_email.outputs.commit_email }}>
+        author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+        committer: Longhorn GitHub Bot <67932897+longhorn-io-github-bot@users.noreply.github.com>
         commit-message: "chore(chart): update dependency versions (PR longhorn/dep-versions#${{ github.event.pull_request.number}})"
         title: "chore(chart): update dependency versions (PR longhorn/dep-versions#${{ github.event.pull_request.number}})"
         body: |
