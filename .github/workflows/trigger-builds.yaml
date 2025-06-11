@@ -67,3 +67,19 @@ jobs:
           workflow: build.yml
           repo: longhorn/longhorn-instance-manager
           ref: ${{ steps.set-ref.outputs.ref }}
+
+      - name: Trigger build in longhorn-spdk-engine
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          token: ${{ secrets.CUSTOM_GITHUB_ACTION_TOKEN }}
+          workflow: build.yml
+          repo: longhorn/longhorn-spdk-engine
+          ref: ${{ steps.set-ref.outputs.ref }}
+
+      - name: Trigger build in go-spdk-helper
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          token: ${{ secrets.CUSTOM_GITHUB_ACTION_TOKEN }}
+          workflow: build.yml
+          repo: longhorn/go-spdk-helper
+          ref: ${{ steps.set-ref.outputs.ref }}
