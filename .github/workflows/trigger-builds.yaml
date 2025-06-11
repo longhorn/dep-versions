@@ -74,7 +74,7 @@ jobs:
           token: ${{ secrets.CUSTOM_GITHUB_ACTION_TOKEN }}
           workflow: build.yml
           repo: longhorn/longhorn-spdk-engine
-          ref: ${{ steps.set-ref.outputs.ref }}
+          ref: main
 
       - name: Trigger build in go-spdk-helper
         uses: benc-uk/workflow-dispatch@v1
@@ -82,4 +82,4 @@ jobs:
           token: ${{ secrets.CUSTOM_GITHUB_ACTION_TOKEN }}
           workflow: build.yml
           repo: longhorn/go-spdk-helper
-          ref: ${{ steps.set-ref.outputs.ref }}
+          ref: main
