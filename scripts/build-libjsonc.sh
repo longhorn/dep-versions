@@ -38,6 +38,7 @@ mkdir -p "$BUILD_DIR"
 cd "$BUILD_DIR"
 
 # Build and install
-cmake ..
+# CMAKE_POLICY_VERSION_MINIMUM is used to ensure compatibility with CMake 3.5 and above
+cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 ..
 make
 make install
