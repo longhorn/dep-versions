@@ -38,7 +38,9 @@ git -C src/libntirpc checkout "$NTIRPC_COMMIT_ID"
 # Build and install
 export CC="/usr/bin/gcc-14" CXX="/usr/bin/g++-14"
 mkdir -p /usr/local
-cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_CONFIG=vfs_only \
+# CMAKE_POLICY_VERSION_MINIMUM is used to ensure compatibility with CMake 3.5 and above
+cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
+      -DCMAKE_BUILD_TYPE=Release -DBUILD_CONFIG=vfs_only \
       -DUSE_DBUS=OFF -DUSE_NLM=OFF -DUSE_RQUOTA=OFF -DUSE_9P=OFF -D_MSPAC_SUPPORT=OFF -DRPCBIND=OFF \
       -DUSE_RADOS_RECOV=OFF -DRADOS_URLS=OFF -DUSE_FSAL_VFS=ON -DUSE_FSAL_XFS=OFF \
       -DUSE_FSAL_PROXY_V4=OFF -DUSE_FSAL_PROXY_V3=OFF -DUSE_FSAL_LUSTRE=OFF -DUSE_FSAL_LIZARDFS=OFF \
