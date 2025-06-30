@@ -46,5 +46,36 @@
         "commit": "d2b7209f82fac44fe95731ce98740f793e9e98a0",
         "tag": "v6.3",
         "description": "ntirpc is a new transport-agnostic RPC library that is being developed as part of the NFS-Ganesha project."
+<<<<<<< HEAD
+=======
+    },
+    "csi-attacher": {
+        "repo": "https://github.com/kubernetes-csi/external-attacher.git",
+        "tag": "v4.8.1"
+    },
+    "csi-provisioner": {
+        "repo": "https://github.com/kubernetes-csi/external-provisioner.git",
+        "tag": "v5.2.0"
+    },
+    "csi-resizer": {
+        "repo": "https://github.com/kubernetes-csi/external-resizer.git",
+        "tag": "v1.13.2"
+    },
+    "csi-snapshotter": {
+        "repo": "https://github.com/kubernetes-csi/external-snapshotter.git",
+        "tag": "v8.2.0"
+    },
+    "csi-node-driver-registrar": {
+        "repo": "https://github.com/kubernetes-csi/node-driver-registrar.git",
+        "tag": "v2.13.0"
+    },
+    "livenessprobe": {
+        "repo": "https://github.com/kubernetes-csi/livenessprobe.git",
+        "tag": "v2.15.0"
+    },
+    "support-bundle-kit": {
+        "repo": "https://github.com/rancher/support-bundle-kit.git",
+        "tag": "v0.0.58"
+>>>>>>> 93f93a5 (chore: update support-bundle-kit to v0.0.58)
     }
 }
