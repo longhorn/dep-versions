@@ -53,6 +53,12 @@
         "tag": "v6.3",
         "description": "ntirpc is a new transport-agnostic RPC library that is being developed as part of the NFS-Ganesha project."
     },
+    "libqcow": {
+        "repo": "https://github.com/longhorn/libqcow.git",
+        "commit": "be16287a2b9691347936be43fcffe93b8f74cf54",
+        "tag": "v1.0.0",
+        "description": "libqcow is a library for reading and writing QCOW2 files, which are used by QEMU for disk images."
+    },
     "csi-attacher": {
         "repo": "https://github.com/kubernetes-csi/external-attacher.git",
         "tag": "v4.8.1"
