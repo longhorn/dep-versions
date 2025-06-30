@@ -1,16 +1,16 @@
 #!/bin/bash
 set -euo pipefail
 
+if [ "$#" -ne 2 ]; then
+    echo "Illegal number of parameters"
+    exit 1
+fi
+
 MAIN_DIR=$(dirname $(dirname $(realpath $0)))
 
 REPO_OVERRIDE="$1"
 COMMIT_ID_OVERRIDE="$2"
 SRC_DIR="/usr/src/libqcow"
-
-if [ "$#" -ne 2 ]; then
-    echo "Illegal number of parameters"
-    exit 1
-fi
 
 # Fetch repo and commit ID from versions.json, with optional overrides
 LIBQCOW_REPO=$(jq -r '.["libqcow"].repo' ${MAIN_DIR}/versions.json)

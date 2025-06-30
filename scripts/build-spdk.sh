@@ -1,17 +1,17 @@
 #!/bin/bash
 set -euo pipefail
 
+if [ "$#" -ne 3 ]; then
+    echo "Illegal number of parameters"
+    exit 1
+fi
+
 MAIN_DIR=$(dirname $(dirname $(realpath $0)))
 
 REPO_OVERRIDE="$1"
 COMMIT_ID_OVERRIDE="$2"
 ARCH="$3"
 SRC_DIR="/usr/src/spdk"
-
-if [ "$#" -ne 3 ]; then
-    echo "Illegal number of parameters"
-    exit 1
-fi
 
 # Fetch repo and commit ID from versions.json, with optional overrides
 SPDK_REPO=$(jq -r '.["spdk"].repo' ${MAIN_DIR}/versions.json)
