@@ -34,6 +34,15 @@ jobs:
         echo "PR URL: ${{ github.event.pull_request.html_url }}"
         echo "PR was merged into branch: ${{ github.event.pull_request.base.ref }}"
 
+    - id: app-token
+      uses: actions/create-github-app-token@v2
+      with:
+        app-id: ${{ secrets.LONGHORN_GITHUB_BOT_APP_ID }}
+        private-key: ${{ secrets.LONGHORN_GITHUB_BOT_PRIVATE_KEY }}
+        owner: ${{ github.repository_owner }}
+        permission-contents: write
+        permission-pull-requests: write
+        
     - name: Set ref
       run: |
         if [ "${{ github.event.pull_request.base.ref }}" = "main" ]; then
@@ -45,6 +54,7 @@ jobs:
     - uses: actions/checkout@v4
       with:
         repository: longhorn/longhorn
+        token: ${{ steps.app-token.outputs.token }}
         ref: ${{ env.LONGHORN_BRANCH }}
 
     - name: Create longhorn/longhorn PR
@@ -107,12 +117,12 @@ jobs:
       id: cpr
       uses: peter-evans/create-pull-request@v7
       with:
-        token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+        token: ${{ steps.app-token.outputs.token }}
         branch: "update-deps-version-${{ github.event.pull_request.number }}"
         delete-branch: true
         sign-commits: true
         signoff: true
-        author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+        author: Longhorn GitHub Bot <67932897+longhorn-io-github-bot@users.noreply.github.com>
         committer: Longhorn GitHub Bot <67932897+longhorn-io-github-bot@users.noreply.github.com>
         commit-message: "chore(chart): update dependency versions (PR longhorn/dep-versions#${{ github.event.pull_request.number}})"
         title: "chore(chart): update dependency versions (PR longhorn/dep-versions#${{ github.event.pull_request.number}})"
