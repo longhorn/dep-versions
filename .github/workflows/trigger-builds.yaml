@@ -42,6 +42,7 @@ jobs:
           app-id: ${{ secrets.LONGHORN_GITHUB_BOT_APP_ID }}
           private-key: ${{ secrets.LONGHORN_GITHUB_BOT_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
+          permission-actions: write
           permission-contents: write
           permission-pull-requests: write
 
