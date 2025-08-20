@@ -7,7 +7,7 @@
     },
     "tgt": {
         "repo": "https://github.com/rancher/tgt.git",
-        "commit": "3a8bc4823b5390e046f7aa8231ed262c0365c42c",
+        "commit": "2004173900e49b8b88341cd573153570472ab7cc",
         "tag": "v1.0.79+1",
         "description": "tgtd is a user-space daemon that provides SCSI target support."
     },
