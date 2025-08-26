@@ -61,7 +61,7 @@
     },
     "csi-attacher": {
         "repo": "https://github.com/kubernetes-csi/external-attacher.git",
-        "tag": "v4.8.1"
+        "tag": "v4.9.0-20250826"
     },
     "csi-provisioner": {
         "repo": "https://github.com/kubernetes-csi/external-provisioner.git",
