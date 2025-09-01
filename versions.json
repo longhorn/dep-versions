@@ -85,6 +85,6 @@
     },
     "support-bundle-kit": {
         "repo": "https://github.com/rancher/support-bundle-kit.git",
-        "tag": "v0.0.63"
+        "tag": "v0.0.64"
     }
 }
