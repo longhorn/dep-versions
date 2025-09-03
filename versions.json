@@ -1,14 +1,14 @@
 {
     "liblonghorn": {
         "repo": "https://github.com/rancher/liblonghorn.git",
-        "commit": "f34cfed3c5a379d1796a0a9b147e3c75a369aa6f",
-        "tag": "v1.0.0",
+        "commit": "02d2f2fc82a7674fd50cab632736eb743a7cbe79",
+        "tag": "v1.0.1",
         "description": "liblonghorn is a library that provides a simple interface to interact with Longhorn."
     },
     "tgt": {
         "repo": "https://github.com/rancher/tgt.git",
-        "commit": "2004173900e49b8b88341cd573153570472ab7cc",
-        "tag": "v1.0.79+1",
+        "commit": "c0d56b89b449f910a69fff22fe388293e000fc21",
+        "tag": "v1.0.79+2",
         "description": "tgtd is a user-space daemon that provides SCSI target support."
     },
     "spdk": {
