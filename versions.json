@@ -2,13 +2,13 @@
     "liblonghorn": {
         "repo": "https://github.com/rancher/liblonghorn.git",
         "commit": "02d2f2fc82a7674fd50cab632736eb743a7cbe79",
-        "tag": "v1.0.0",
+        "tag": "v1.0.1",
         "description": "liblonghorn is a library that provides a simple interface to interact with Longhorn."
     },
     "tgt": {
         "repo": "https://github.com/rancher/tgt.git",
         "commit": "c0d56b89b449f910a69fff22fe388293e000fc21",
-        "tag": "v1.0.79+1",
+        "tag": "v1.0.79+2",
         "description": "tgtd is a user-space daemon that provides SCSI target support."
     },
     "spdk": {
@@ -19,7 +19,7 @@
     },
     "go-spdk-helper": {
         "repo": "https://github.com/longhorn/go-spdk-helper.git",
-        "commit": "da698775fdc6f21c8e2e374eedcdee3523058d56",
+        "commit": "5b276fe12f4e6a6f9dd6c170864781c9ffc14e31",
         "tag": "v0.0.2",
         "description": "go-spdk-helper is a Go wrapper for SPDK."
     },
