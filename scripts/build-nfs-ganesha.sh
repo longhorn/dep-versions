@@ -34,6 +34,7 @@ git checkout "$NFS_GANESHA_COMMIT_ID"
 rm -rf src/libntirpc
 git clone "$NTIRPC_REPO" src/libntirpc
 git -C src/libntirpc checkout "$NTIRPC_COMMIT_ID"
+git -C src/libntirpc submodule update --init --recursive
 
 # Build and install
 export CC="/usr/bin/gcc-14" CXX="/usr/bin/g++-14"
@@ -46,6 +47,7 @@ cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
       -DUSE_FSAL_PROXY_V4=OFF -DUSE_FSAL_PROXY_V3=OFF -DUSE_FSAL_LUSTRE=OFF -DUSE_FSAL_LIZARDFS=OFF \
       -DUSE_FSAL_KVSFS=OFF -DUSE_FSAL_CEPH=OFF -DUSE_FSAL_GPFS=OFF -DUSE_FSAL_PANFS=OFF -DUSE_FSAL_GLUSTER=OFF \
       -DUSE_GSS=NO -DHAVE_ACL_GET_FD_NP=ON -DHAVE_ACL_SET_FD_NP=ON \
+      -DUSE_MONITORING=OFF \
       -DCMAKE_INSTALL_PREFIX=/usr/local src/
 make -j$(nproc)
 make install
