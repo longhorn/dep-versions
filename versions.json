@@ -2,7 +2,7 @@
     "liblonghorn": {
         "repo": "https://github.com/rancher/liblonghorn.git",
         "commit": "02d2f2fc82a7674fd50cab632736eb743a7cbe79",
-        "tag": "v1.0.1",
+        "tag": "v1.0.2",
         "description": "liblonghorn is a library that provides a simple interface to interact with Longhorn."
     },
     "tgt": {
@@ -20,7 +20,7 @@
     "go-spdk-helper": {
         "repo": "https://github.com/longhorn/go-spdk-helper.git",
         "commit": "f55efaeb73699f96a5b5994044f0d17e7496ea50",
-        "tag": "v0.0.2",
+        "tag": "v0.1.0",
         "description": "go-spdk-helper is a Go wrapper for SPDK."
     },
     "libjsonc": {
