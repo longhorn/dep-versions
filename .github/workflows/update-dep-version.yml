@@ -6,7 +6,7 @@ on:
         description: "Repository. e.g. longhorn/go-spdk-helper"
         required: true
       branch:
-        description: "Branch to update in longhorn/dev-versions"
+        description: "Branch to update in longhorn/dep-versions"
         required: true
       commit:
         description: "Commit ID to tag"
@@ -32,12 +32,19 @@ jobs:
       - name: Set variables
         id: vars
         run: |
-          REPO=${{ github.event.inputs.repo }}
-          COMMIT=${{ github.event.inputs.commit }}
-          TAG=${{ github.event.inputs.tag }}
+          REPO="${{ github.event.inputs.repo }}"
+          COMMIT="${{ github.event.inputs.commit }}"
+          TAG="${{ github.event.inputs.tag }}"
+          BRANCH="${{ github.event.inputs.branch }}"
+          
+          # Extract repo name from full repo path (e.g., longhorn/go-spdk-helper -> go-spdk-helper)
+          NAME="${REPO##*/}"
+          
           echo "repo=$REPO" >> $GITHUB_OUTPUT
           echo "commit=$COMMIT" >> $GITHUB_OUTPUT
           echo "tag=$TAG" >> $GITHUB_OUTPUT
+          echo "branch=$BRANCH" >> $GITHUB_OUTPUT
+          echo "name=$NAME" >> $GITHUB_OUTPUT
 
       - name: Create and push tag
         env:
@@ -79,3 +86,55 @@ jobs:
             -f sha="$TAG_SHA"
 
           echo "Successfully created and pushed tag $TAG at commit $COMMIT"
+
+      - name: Checkout dep-versions repo
+        uses: actions/checkout@v4
+        with:
+          repository: longhorn/dep-versions
+          ref: ${{ github.event.inputs.branch }}
+          token: ${{ steps.app-token.outputs.token }}
+          path: dep-versions
+          fetch-depth: 0
+
+      - name: Update versions.json
+        working-directory: dep-versions
+        run: |
+          set -eux
+          
+          NAME="${{ steps.vars.outputs.name }}"
+          COMMIT="${{ steps.vars.outputs.commit }}"
+          TAG="${{ steps.vars.outputs.tag }}"
+          
+          # Update the JSON file
+          jq --arg name "$NAME" --arg commit "$COMMIT" --arg tag "$TAG" \
+             '.[$name] |= (.commit = $commit | .tag = $tag)' \
+             versions.json > versions.json.tmp && mv versions.json.tmp versions.json
+          
+          echo "Updated versions.json for $NAME"
+
+      - name: Create Pull Request
+        id: create-pull-request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          path: dep-versions
+          branch: "update-${{ steps.vars.outputs.name }}-${{ steps.vars.outputs.tag }}"
+          base: ${{ github.event.inputs.branch }}
+          delete-branch: true
+          sign-commits: true
+          signoff: true
+          author: Longhorn GitHub Bot <67932897+longhorn-io-github-bot@users.noreply.github.com>
+          committer: Longhorn GitHub Bot <67932897+longhorn-io-github-bot@users.noreply.github.com>
+          commit-message: "chore(version): update ${{ steps.vars.outputs.name }} to ${{ steps.vars.outputs.tag }} (${{ steps.vars.outputs.commit }})"
+          title: "chore(version): update ${{ steps.vars.outputs.name }} to ${{ steps.vars.outputs.tag }}"
+          body: |
+            ## Dependency Update
+            
+            Repository: ${{ steps.vars.outputs.repo }}
+            Component: ${{ steps.vars.outputs.name }}
+            New Tag: ${{ steps.vars.outputs.tag }}`
+            Commit: ${{ steps.vars.outputs.commit }}
+            Target Branch: ${{ github.event.inputs.branch }}
+            
+            This PR updates the version information in versions.json for the ${{ steps.vars.outputs.name }} component.
+            This PR was automatically created by the Update Dependency Version workflow.
