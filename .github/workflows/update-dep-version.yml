@@ -1,0 +1,81 @@
+name: Update Dependency Version
+on:
+  workflow_dispatch:
+    inputs:
+      repo:
+        description: "Repository. e.g. longhorn/go-spdk-helper"
+        required: true
+      branch:
+        description: "Branch to update in longhorn/dev-versions"
+        required: true
+      commit:
+        description: "Commit ID to tag"
+        required: true
+      tag:
+        description: "Tag name"
+        required: true
+
+jobs:
+  update-version:
+    runs-on: ubuntu-latest
+    steps:
+      - id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.LONGHORN_GITHUB_BOT_APP_ID }}
+          private-key: ${{ secrets.LONGHORN_GITHUB_BOT_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          permission-actions: write
+          permission-contents: write
+          permission-pull-requests: write
+
+      - name: Set variables
+        id: vars
+        run: |
+          REPO=${{ github.event.inputs.repo }}
+          COMMIT=${{ github.event.inputs.commit }}
+          TAG=${{ github.event.inputs.tag }}
+          echo "repo=$REPO" >> $GITHUB_OUTPUT
+          echo "commit=$COMMIT" >> $GITHUB_OUTPUT
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+
+      - name: Create and push tag
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          set -eux
+          
+          REPO="${{ steps.vars.outputs.repo }}"
+          COMMIT="${{ steps.vars.outputs.commit }}"
+          TAG="${{ steps.vars.outputs.tag }}"
+
+          # Verify the commit exists
+          if ! gh api "repos/$REPO/commits/$COMMIT" > /dev/null 2>&1; then
+            echo "Error: Commit $COMMIT does not exist in $REPO"
+            exit 1
+          fi
+
+          # Check if the tag already exists
+          if gh api "repos/$REPO/git/refs/tags/$TAG" > /dev/null 2>&1; then
+            echo "Error: Tag $TAG already exists in $REPO"
+            exit 1
+          fi
+
+          # Create annotated tag object
+          TAG_SHA=$(gh api \
+            --method POST \
+            "repos/$REPO/git/tags" \
+            -f tag="$TAG" \
+            -f message="Automated tag creation: $TAG for commit $COMMIT" \
+            -f object="$COMMIT" \
+            -f type="commit" \
+            --jq '.sha')
+
+          # Create tag reference
+          gh api \
+            --method POST \
+            "repos/$REPO/git/refs" \
+            -f ref="refs/tags/$TAG" \
+            -f sha="$TAG_SHA"
+
+          echo "Successfully created and pushed tag $TAG at commit $COMMIT"
