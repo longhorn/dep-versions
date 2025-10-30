@@ -81,7 +81,7 @@
     },
     "livenessprobe": {
         "repo": "https://github.com/kubernetes-csi/livenessprobe.git",
-        "tag": "v2.17.0"
+        "tag": "v2.17.0-20251030"
     },
     "support-bundle-kit": {
         "repo": "https://github.com/rancher/support-bundle-kit.git",
