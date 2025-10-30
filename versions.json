@@ -77,7 +77,7 @@
     },
     "csi-node-driver-registrar": {
         "repo": "https://github.com/kubernetes-csi/node-driver-registrar.git",
-        "tag": "v2.15.0"
+        "tag": "v2.15.0-20251030"
     },
     "livenessprobe": {
         "repo": "https://github.com/kubernetes-csi/livenessprobe.git",
