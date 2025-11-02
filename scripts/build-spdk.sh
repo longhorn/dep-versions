@@ -34,10 +34,6 @@ cd "$SRC_DIR"
 git checkout "$SPDK_COMMIT_ID"
 git submodule update --init
 
-# Modify package dependency script for SLES
-sed -i '/python3-pyelftools/d' ./scripts/pkgdep/sles.sh
-sed -i 's/python3-/python311-/g' ./scripts/pkgdep/sles.sh
-
 # Install dependencies
 ./scripts/pkgdep.sh --uring
 pip3 install -r ./scripts/pkgdep/requirements.txt
