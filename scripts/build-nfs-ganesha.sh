@@ -37,7 +37,7 @@ git -C src/libntirpc checkout "$NTIRPC_COMMIT_ID"
 git -C src/libntirpc submodule update --init --recursive
 
 # Build and install
-export CC="/usr/bin/gcc-14" CXX="/usr/bin/g++-14"
+export CC="/usr/bin/gcc" CXX="/usr/bin/g++"
 mkdir -p /usr/local
 # CMAKE_POLICY_VERSION_MINIMUM is used to ensure compatibility with CMake 3.5 and above
 cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
