@@ -1,90 +1,90 @@
 {
-    "liblonghorn": {
-        "repo": "https://github.com/rancher/liblonghorn.git",
-        "commit": "b4ec08c32aee6e212a6f2bb8dede0862f8c8372e",
-        "tag": "v1.0.3",
-        "description": "liblonghorn is a library that provides a simple interface to interact with Longhorn."
-    },
-    "tgt": {
-        "repo": "https://github.com/rancher/tgt.git",
-        "commit": "c0d56b89b449f910a69fff22fe388293e000fc21",
-        "tag": "v1.0.79+2",
-        "description": "tgtd is a user-space daemon that provides SCSI target support."
-    },
-    "spdk": {
-        "repo": "https://github.com/longhorn/spdk.git",
-        "commit": "5574f2d939f3cce89205eab25e768cae63f39fb4",
-        "tag": "v25.05.0+4",
-        "description": "SPDK is a storage performance development kit."
-    },
-    "go-spdk-helper": {
-        "repo": "https://github.com/longhorn/go-spdk-helper.git",
-        "commit": "6d075880c7a2a07fe69f4c69676262673a5a97f6",
-        "tag": "v0.2.0",
-        "description": "go-spdk-helper is a Go wrapper for SPDK."
-    },
-    "libjsonc": {
-        "repo": "https://github.com/json-c/json-c.git",
-        "commit": "b4c371fa0cbc4dcbaccc359ce9e957a22988fb34",
-        "tag": "json-c-0.17-20230812",
-        "description": "JSON-C is a JSON implementation in C."
-    },
-    "nvme-cli": {
-        "repo": "https://github.com/linux-nvme/nvme-cli.git",
-        "commit": "eeaa08c9a0e9184f3889df0bff3d2a23db6d6294",
-        "tag": "v2.10.2",
-        "description": "nvme-cli is a utility for managing NVMe devices."
-    },
-    "libnvme": {
-        "repo": "https://github.com/linux-nvme/libnvme.git",
-        "commit": "dd51fa8550564c93436423a4d8ed4be92ae50290",
-        "tag": "v1.10",
-        "description": "libnvme is a library for managing NVMe devices."
-    },
-    "nfs-ganesha": {
-        "repo": "https://github.com/rancher/nfs-ganesha.git",
-        "commit": "8f55c96b80e8a666a5ee1a59d1e9ad2025636c39",
-        "tag": "v7.3.0+1",
-        "description": "NFS-Ganesha is an NFSv3,v4,v4.1 fileserver that runs inside the longhorn-shared-manager pod."
-    },
-    "ntirpc": {
-        "repo": "https://github.com/nfs-ganesha/ntirpc.git",
-        "commit": "3072c8f7c0d4cc4e4ab5134b0ac9506afa793eea",
-        "tag": "v7.2",
-        "description": "ntirpc is a new transport-agnostic RPC library that is being developed as part of the NFS-Ganesha project."
-    },
-    "libqcow": {
-        "repo": "https://github.com/longhorn/libqcow.git",
-        "commit": "be16287a2b9691347936be43fcffe93b8f74cf54",
-        "tag": "v1.0.0",
-        "description": "libqcow is a library for reading and writing QCOW2 files, which are used by QEMU for disk images."
-    },
-    "csi-attacher": {
-        "repo": "https://github.com/kubernetes-csi/external-attacher.git",
-        "tag": "v4.9.0-20250826"
-    },
-    "csi-provisioner": {
-        "repo": "https://github.com/kubernetes-csi/external-provisioner.git",
-        "tag": "v5.3.0-20250826"
-    },
-    "csi-resizer": {
-        "repo": "https://github.com/kubernetes-csi/external-resizer.git",
-        "tag": "v1.14.0-20250826"
-    },
-    "csi-snapshotter": {
-        "repo": "https://github.com/kubernetes-csi/external-snapshotter.git",
-        "tag": "v8.3.0-20250826"
-    },
-    "csi-node-driver-registrar": {
-        "repo": "https://github.com/kubernetes-csi/node-driver-registrar.git",
-        "tag": "v2.14.0-20250826"
-    },
-    "livenessprobe": {
-        "repo": "https://github.com/kubernetes-csi/livenessprobe.git",
-        "tag": "v2.16.0-20250826"
-    },
-    "support-bundle-kit": {
-        "repo": "https://github.com/rancher/support-bundle-kit.git",
-        "tag": "v0.0.69"
-    }
+  "liblonghorn": {
+    "repo": "https://github.com/rancher/liblonghorn.git",
+    "commit": "b4ec08c32aee6e212a6f2bb8dede0862f8c8372e",
+    "tag": "v1.0.3",
+    "description": "liblonghorn is a library that provides a simple interface to interact with Longhorn."
+  },
+  "tgt": {
+    "repo": "https://github.com/rancher/tgt.git",
+    "commit": "c0d56b89b449f910a69fff22fe388293e000fc21",
+    "tag": "v1.0.79+2",
+    "description": "tgtd is a user-space daemon that provides SCSI target support."
+  },
+  "spdk": {
+    "repo": "https://github.com/longhorn/spdk.git",
+    "commit": "e1d5238fbd0664c00be4d536ff3d314a20327b92",
+    "tag": "v25.09.0+1",
+    "description": "SPDK is a storage performance development kit."
+  },
+  "go-spdk-helper": {
+    "repo": "https://github.com/longhorn/go-spdk-helper.git",
+    "commit": "6d075880c7a2a07fe69f4c69676262673a5a97f6",
+    "tag": "v0.2.0",
+    "description": "go-spdk-helper is a Go wrapper for SPDK."
+  },
+  "libjsonc": {
+    "repo": "https://github.com/json-c/json-c.git",
+    "commit": "b4c371fa0cbc4dcbaccc359ce9e957a22988fb34",
+    "tag": "json-c-0.17-20230812",
+    "description": "JSON-C is a JSON implementation in C."
+  },
+  "nvme-cli": {
+    "repo": "https://github.com/linux-nvme/nvme-cli.git",
+    "commit": "eeaa08c9a0e9184f3889df0bff3d2a23db6d6294",
+    "tag": "v2.10.2",
+    "description": "nvme-cli is a utility for managing NVMe devices."
+  },
+  "libnvme": {
+    "repo": "https://github.com/linux-nvme/libnvme.git",
+    "commit": "dd51fa8550564c93436423a4d8ed4be92ae50290",
+    "tag": "v1.10",
+    "description": "libnvme is a library for managing NVMe devices."
+  },
+  "nfs-ganesha": {
+    "repo": "https://github.com/rancher/nfs-ganesha.git",
+    "commit": "8f55c96b80e8a666a5ee1a59d1e9ad2025636c39",
+    "tag": "v7.3.0+1",
+    "description": "NFS-Ganesha is an NFSv3,v4,v4.1 fileserver that runs inside the longhorn-shared-manager pod."
+  },
+  "ntirpc": {
+    "repo": "https://github.com/nfs-ganesha/ntirpc.git",
+    "commit": "3072c8f7c0d4cc4e4ab5134b0ac9506afa793eea",
+    "tag": "v7.2",
+    "description": "ntirpc is a new transport-agnostic RPC library that is being developed as part of the NFS-Ganesha project."
+  },
+  "libqcow": {
+    "repo": "https://github.com/longhorn/libqcow.git",
+    "commit": "be16287a2b9691347936be43fcffe93b8f74cf54",
+    "tag": "v1.0.0",
+    "description": "libqcow is a library for reading and writing QCOW2 files, which are used by QEMU for disk images."
+  },
+  "csi-attacher": {
+    "repo": "https://github.com/kubernetes-csi/external-attacher.git",
+    "tag": "v4.9.0-20250826"
+  },
+  "csi-provisioner": {
+    "repo": "https://github.com/kubernetes-csi/external-provisioner.git",
+    "tag": "v5.3.0-20250826"
+  },
+  "csi-resizer": {
+    "repo": "https://github.com/kubernetes-csi/external-resizer.git",
+    "tag": "v1.14.0-20250826"
+  },
+  "csi-snapshotter": {
+    "repo": "https://github.com/kubernetes-csi/external-snapshotter.git",
+    "tag": "v8.3.0-20250826"
+  },
+  "csi-node-driver-registrar": {
+    "repo": "https://github.com/kubernetes-csi/node-driver-registrar.git",
+    "tag": "v2.14.0-20250826"
+  },
+  "livenessprobe": {
+    "repo": "https://github.com/kubernetes-csi/livenessprobe.git",
+    "tag": "v2.16.0-20250826"
+  },
+  "support-bundle-kit": {
+    "repo": "https://github.com/rancher/support-bundle-kit.git",
+    "tag": "v0.0.69"
+  }
 }
