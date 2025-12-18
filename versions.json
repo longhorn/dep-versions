@@ -59,7 +59,7 @@
     },
     "csi-provisioner": {
         "repo": "https://github.com/kubernetes-csi/external-provisioner.git",
-        "tag": "v5.3.0-20250709"
+        "tag": "v5.3.0-20251030"
     },
     "csi-resizer": {
         "repo": "https://github.com/kubernetes-csi/external-resizer.git",
