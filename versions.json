@@ -31,14 +31,14 @@
   },
   "nvme-cli": {
     "repo": "https://github.com/linux-nvme/nvme-cli.git",
-    "commit": "eeaa08c9a0e9184f3889df0bff3d2a23db6d6294",
-    "tag": "v2.10.2",
+    "commit": "faf7326a2997dea91687fd3daa17fc405910a4c1",
+    "tag": "v2.16",
     "description": "nvme-cli is a utility for managing NVMe devices."
   },
   "libnvme": {
     "repo": "https://github.com/linux-nvme/libnvme.git",
-    "commit": "dd51fa8550564c93436423a4d8ed4be92ae50290",
-    "tag": "v1.10",
+    "commit": "becae3d874b40bfedede672b4b2f58ae8c3be3b5",
+    "tag": "v1.16.1",
     "description": "libnvme is a library for managing NVMe devices."
   },
   "nfs-ganesha": {
