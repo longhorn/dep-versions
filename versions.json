@@ -13,8 +13,8 @@
   },
   "spdk": {
     "repo": "https://github.com/longhorn/spdk.git",
-    "commit": "0c851e81b13fc1424e92df9593dbdf1819459b6a",
-    "tag": "v25.09.0+2",
+    "commit": "92048fc6021b1453b1b9dff64d940ae75f3b578a",
+    "tag": "v25.09.0+3",
     "description": "SPDK is a storage performance development kit."
   },
   "go-spdk-helper": {
