@@ -16,7 +16,7 @@ jobs:
       run: |
         sudo apt update -y
         sudo apt install -y jq wget
-        wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+        wget https://github.com/mikefarah/yq/releases/download/v4.52.5/yq_linux_amd64
         sudo mv yq_linux_amd64 /usr/local/bin/yq
         sudo chmod +x /usr/local/bin/yq
 
@@ -24,7 +24,7 @@ jobs:
       run: |
         curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
         chmod 700 get_helm.sh
-        ./get_helm.sh
+        DESIRED_VERSION=v3.20.2 ./get_helm.sh
 
     - name: Log triggering PR information
       shell: bash
