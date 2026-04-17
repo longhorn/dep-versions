@@ -1,131 +1,179 @@
 name: Create Dependency Version Update PR in Longhorn Repo
 
 on:
-  pull_request_target:
-    types: [closed]
+  push:
     branches:
       - master
       - "v*"
 
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: dep-versions-update-${{ github.ref_name }}
+  cancel-in-progress: true
+
 jobs:
   create-pull-request:
-    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
+
     steps:
-    - name: Install Dependencies
-      run: |
-        sudo apt update -y
-        sudo apt install -y jq wget
-        wget https://github.com/mikefarah/yq/releases/download/v4.52.5/yq_linux_amd64
-        sudo mv yq_linux_amd64 /usr/local/bin/yq
-        sudo chmod +x /usr/local/bin/yq
+      - name: Install Dependencies
+        run: |
+          set -euxo pipefail
+          sudo apt update -y
+          sudo apt install -y jq wget
 
-    - name: Prepare Packages
-      run: |
-        curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
-        chmod 700 get_helm.sh
-        DESIRED_VERSION=v3.20.2 ./get_helm.sh
+          # Install yq for YAML processing
+          wget -O /tmp/yq \
+            https://github.com/mikefarah/yq/releases/download/v4.52.5/yq_linux_amd64
+          sudo mv /tmp/yq /usr/local/bin/yq
+          sudo chmod +x /usr/local/bin/yq
 
-    - name: Log triggering PR information
-      shell: bash
-      run: |
-        echo "Triggered by PR: #${{ github.event.pull_request.number }}"
-        echo "PR Title: ${{ github.event.pull_request.title }}"
-        echo "PR URL: ${{ github.event.pull_request.html_url }}"
-        echo "PR was merged into branch: ${{ github.event.pull_request.base.ref }}"
+      - name: Prepare Packages
+        run: |
+          set -euxo pipefail
 
-    - id: app-token
-      uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2
-      with:
-        app-id: ${{ secrets.LONGHORN_GITHUB_BOT_APP_ID }}
-        private-key: ${{ secrets.LONGHORN_GITHUB_BOT_PRIVATE_KEY }}
-        owner: ${{ github.repository_owner }}
-        permission-contents: write
-        permission-pull-requests: write
-        
-    - name: Set ref
-      run: |
-        if [ "${{ github.event.pull_request.base.ref }}" = "main" ]; then
-          echo "LONGHORN_BRANCH=master" >> $GITHUB_ENV
-        else
-          echo "LONGHORN_BRANCH=${{ github.event.pull_request.base.ref }}" >> $GITHUB_ENV
-        fi
+          # Install Helm
+          curl -fsSL -o /tmp/get_helm.sh \
+            https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+          chmod 700 /tmp/get_helm.sh
+          DESIRED_VERSION=v3.20.2 /tmp/get_helm.sh
 
-    - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
-      with:
-        repository: longhorn/longhorn
-        token: ${{ steps.app-token.outputs.token }}
-        ref: ${{ env.LONGHORN_BRANCH }}
+      - name: Set workflow variables
+        run: |
+          set -euxo pipefail
 
-    - name: Create longhorn/longhorn PR
-      shell: bash
-      run: |
-        COMPONENTS=(backing-image-manager longhorn-engine longhorn-instance-manager longhorn-manager longhorn-share-manager longhorn-ui longhorn-cli)
-        EXTERNALS=("csi-attacher" "csi-provisioner" "csi-resizer" "csi-snapshotter" "csi-node-driver-registrar" "livenessprobe" "support-bundle-kit")
+          SHORT_SHA="${GITHUB_SHA:0:7}"
 
-        IMAGE_FILE="deploy/longhorn-images.txt"
+          # Use the pushed branch as both source and target
+          echo "TARGET_BRANCH=${GITHUB_REF_NAME}" >> $GITHUB_ENV
+          echo "SHORT_SHA=${SHORT_SHA}" >> $GITHUB_ENV
 
-        component_images=()
+      - name: Create GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349
+        with:
+          app-id: ${{ secrets.LONGHORN_GITHUB_BOT_APP_ID }}
+          private-key: ${{ secrets.LONGHORN_GITHUB_BOT_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          permission-contents: write
+          permission-pull-requests: write
 
-        curl -L https://raw.githubusercontent.com/longhorn/dep-versions/refs/heads/${{ github.event.pull_request.base.ref }}/versions.json -o /tmp/versions.json
-        cat /tmp/versions.json
+      - name: Checkout longhorn/longhorn
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          repository: longhorn/longhorn
+          token: ${{ steps.app-token.outputs.token }}
+          ref: ${{ env.TARGET_BRANCH }}
 
-        TAG=${{ env.LONGHORN_BRANCH }}-head
-  
-        # Extract component images from the $IMAGE_FILE
-        while IFS= read -r line; do
-          for component in "${COMPONENTS[@]}"; do
-            if [[ "$line" == *"$component"* ]]; then
-              component_images+=("$line")
-              break
-            fi
+      - name: Update dependency versions
+        id: update
+        run: |
+          set -euxo pipefail
+
+          COMPONENTS=(
+            backing-image-manager
+            longhorn-engine
+            longhorn-instance-manager
+            longhorn-manager
+            longhorn-share-manager
+            longhorn-ui
+            longhorn-cli
+          )
+
+          EXTERNALS=(
+            csi-attacher
+            csi-provisioner
+            csi-resizer
+            csi-snapshotter
+            csi-node-driver-registrar
+            livenessprobe
+            support-bundle-kit
+          )
+
+          IMAGE_FILE="deploy/longhorn-images.txt"
+
+          if [[ ! -f "${IMAGE_FILE}" ]]; then
+            echo "::error::${IMAGE_FILE} not found in longhorn/longhorn@${TARGET_BRANCH}"
+            exit 1
+          fi
+
+          # Fetch dependency versions from dep-versions repo
+          VERSIONS_URL="https://raw.githubusercontent.com/longhorn/dep-versions/refs/heads/${TARGET_BRANCH}/versions.json"
+          if ! curl -fsSL "${VERSIONS_URL}" -o /tmp/versions.json; then
+            echo "::error::Failed to fetch versions.json from ${VERSIONS_URL}"
+            exit 1
+          fi
+
+          # Validate that versions.json is valid JSON
+          if ! jq empty /tmp/versions.json 2>/dev/null; then
+            echo "::error::versions.json is not valid JSON"
+            exit 1
+          fi
+
+          component_images=()
+
+          # Preserve only Longhorn component images
+          while IFS= read -r line; do
+            for component in "${COMPONENTS[@]}"; do
+              if [[ "${line}" == *"${component}"* ]]; then
+                component_images+=("${line}")
+                break
+              fi
+            done
+          done < "${IMAGE_FILE}"
+
+          rm -f "${IMAGE_FILE}"
+
+          # Restore component images
+          for image in "${component_images[@]}"; do
+            echo "${image}" >> "${IMAGE_FILE}"
           done
-        done < "$IMAGE_FILE"
 
-        echo "Component images: ${component_images[@]}"
+          # Append external dependency images from versions.json
+          for dep in "${EXTERNALS[@]}"; do
+            tag="$(jq -r --arg dep "${dep}" '.[$dep].tag' /tmp/versions.json)"
+            if [[ -z "${tag}" || "${tag}" == "null" ]]; then
+              echo "::error::Missing or null tag for '${dep}' in versions.json"
+              exit 1
+            fi
+            echo "longhornio/${dep}:${tag}" >> "${IMAGE_FILE}"
+          done
 
-        rm -rf $IMAGE_FILE
+          # Regenerate chart-related files
+          bash scripts/update-chart-readme.sh
+          bash scripts/update-chart-questions.sh
+          bash scripts/update-chart-values.sh
+          bash scripts/generate-longhorn-yaml.sh
 
-        # Copy the component images to the $IMAGE_FILE
-        for image in "${component_images[@]}"; do
-          echo $image >> $IMAGE_FILE
-        done
+          # Only proceed if there are actual changes
+          # This prevents creating empty or duplicate PRs
+          if git diff --quiet; then
+            echo "NO_CHANGES=true" >> $GITHUB_ENV
+          else
+            echo "NO_CHANGES=false" >> $GITHUB_ENV
+          fi
 
-        # Add the external images to the $IMAGE_FILE
-        for dep in "${EXTERNALS[@]}"
-        do
-            tag=$(jq -r --arg dep "$dep" '.[$dep].tag' /tmp/versions.json)
-            echo "longhornio/$dep:$tag" >> $IMAGE_FILE
-        done
+      - name: Create Pull Request
+        # Skip PR creation if no changes detected
+        if: env.NO_CHANGES == 'false'
+        uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676 # v7
+        with:
+          token: ${{ steps.app-token.outputs.token }}
 
-        cat $IMAGE_FILE
+          # Use a stable branch name so the PR is updated instead of recreated
+          branch: "update-deps-version-${{ env.TARGET_BRANCH }}"
 
-        bash scripts/update-chart-readme.sh || { echo "Failed: update-chart-readme.sh"; exit 1; }
-        bash scripts/update-chart-questions.sh || { echo "Failed: update-chart-questions.sh"; exit 1; }
-        bash scripts/update-chart-values.sh || { echo "Failed: update-chart-values.sh"; exit 1; }
-        bash scripts/generate-longhorn-yaml.sh || { echo "Failed: generate-longhorn-yaml.sh"; exit 1; }
+          delete-branch: true
+          sign-commits: true
+          signoff: true
+          author: Longhorn GitHub Bot <67932897+longhorn-io-github-bot@users.noreply.github.com>
+          committer: Longhorn GitHub Bot <67932897+longhorn-io-github-bot@users.noreply.github.com>
 
-    - name: Get Head Commit Name
-      id: get_head_commit_name
-      run: echo "::set-output name=commit_name::$(git log -1 --pretty=format:'%an')"
-
-    - name: Get Head Commit Email
-      id: get_head_commit_email
-      run: echo "::set-output name=commit_email::$(git log -1 --pretty=format:'%ae')"
-
-    - name: Create Pull Request
-      id: cpr
-      uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676 # v7
-      with:
-        token: ${{ steps.app-token.outputs.token }}
-        branch: "update-deps-version-${{ github.event.pull_request.number }}"
-        delete-branch: true
-        sign-commits: true
-        signoff: true
-        author: Longhorn GitHub Bot <67932897+longhorn-io-github-bot@users.noreply.github.com>
-        committer: Longhorn GitHub Bot <67932897+longhorn-io-github-bot@users.noreply.github.com>
-        commit-message: "chore(chart): update dependency versions (PR longhorn/dep-versions#${{ github.event.pull_request.number}})"
-        title: "chore(chart): update dependency versions (PR longhorn/dep-versions#${{ github.event.pull_request.number}})"
-        body: |
-          This PR updates dependency versions.
-          It was triggered by longhorn/dep-versions#${{ github.event.pull_request.number}}.
+          commit-message: "chore(chart): update dependency versions (${{ env.TARGET_BRANCH }})"
+          title: "chore(chart): update dependency versions (${{ env.TARGET_BRANCH }})"
+          body: |
+            This PR updates dependency versions.
+            Triggered by push on `${{ github.ref_name }}`.
