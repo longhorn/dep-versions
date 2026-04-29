@@ -67,7 +67,7 @@
     },
     "csi-snapshotter": {
         "repo": "https://github.com/kubernetes-csi/external-snapshotter.git",
-        "tag": "v8.4.0-20251030"
+        "tag": "v8.5.0-20260428"
     },
     "csi-node-driver-registrar": {
         "repo": "https://github.com/kubernetes-csi/node-driver-registrar.git",
