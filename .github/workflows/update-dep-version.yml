@@ -132,7 +132,7 @@ jobs:
             
             Repository: ${{ steps.vars.outputs.repo }}
             Component: ${{ steps.vars.outputs.name }}
-            New Tag: ${{ steps.vars.outputs.tag }}`
+            New Tag: ${{ steps.vars.outputs.tag }}
             Commit: ${{ steps.vars.outputs.commit }}
             Target Branch: ${{ github.event.inputs.branch }}
             
