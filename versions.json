@@ -43,8 +43,8 @@
   },
   "nfs-ganesha": {
     "repo": "https://github.com/rancher/nfs-ganesha.git",
-    "commit": "8f55c96b80e8a666a5ee1a59d1e9ad2025636c39",
-    "tag": "v7.3.0+1",
+    "commit": "56797d00d812a5e7a68f506618bfed222d961019",
+    "tag": "v9.12.0+1",
     "description": "NFS-Ganesha is an NFSv3,v4,v4.1 fileserver that runs inside the longhorn-shared-manager pod."
   },
   "ntirpc": {
