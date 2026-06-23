@@ -61,7 +61,7 @@
   },
   "csi-attacher": {
     "repo": "https://github.com/kubernetes-csi/external-attacher.git",
-    "tag": "v4.11.0-20260428"
+    "tag": "v4.12.0"
   },
   "csi-provisioner": {
     "repo": "https://github.com/kubernetes-csi/external-provisioner.git",
@@ -69,22 +69,22 @@
   },
   "csi-resizer": {
     "repo": "https://github.com/kubernetes-csi/external-resizer.git",
-    "tag": "v2.1.0-20260428"
+    "tag": "v2.2.0"
   },
   "csi-snapshotter": {
     "repo": "https://github.com/kubernetes-csi/external-snapshotter.git",
-    "tag": "v8.5.0-20260428"
+    "tag": "v8.6.0"
   },
   "csi-node-driver-registrar": {
     "repo": "https://github.com/kubernetes-csi/node-driver-registrar.git",
-    "tag": "v2.16.0-20260428"
+    "tag": "v2.17.0"
   },
   "livenessprobe": {
     "repo": "https://github.com/kubernetes-csi/livenessprobe.git",
-    "tag": "v2.18.0-20260428"
+    "tag": "v2.19.0"
   },
   "support-bundle-kit": {
     "repo": "https://github.com/rancher/support-bundle-kit.git",
-    "tag": "v0.0.84"
+    "tag": "v0.0.88"
   }
 }
