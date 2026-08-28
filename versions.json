@@ -43,14 +43,14 @@
   },
   "nfs-ganesha": {
     "repo": "https://github.com/rancher/nfs-ganesha.git",
-    "commit": "e5fdd04a9ec15de4d6ad4008a841baadda0e7248",
-    "tag": "v15.2.0+1",
+    "commit": "56797d00d812a5e7a68f506618bfed222d961019",
+    "tag": "v9.12.0+1",
     "description": "NFS-Ganesha is an NFSv3,v4,v4.1 fileserver that runs inside the longhorn-shared-manager pod."
   },
   "ntirpc": {
     "repo": "https://github.com/nfs-ganesha/ntirpc.git",
-    "commit": "24a7d5fca4c2e3e3cc8bb94bc301d8c2a40677a8",
-    "tag": "v15.2",
+    "commit": "3072c8f7c0d4cc4e4ab5134b0ac9506afa793eea",
+    "tag": "v7.2",
     "description": "ntirpc is a new transport-agnostic RPC library that is being developed as part of the NFS-Ganesha project."
   },
   "libqcow": {
