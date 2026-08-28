@@ -31,6 +31,8 @@ fi
 git clone "$NFS_GANESHA_REPO" /nfs-ganesha
 cd /nfs-ganesha
 git checkout "$NFS_GANESHA_COMMIT_ID"
+# Initialize nfs-ganesha submodules (e.g. src/libkmip); libntirpc is pinned separately below
+git submodule update --init --recursive
 rm -rf src/libntirpc
 git clone "$NTIRPC_REPO" src/libntirpc
 git -C src/libntirpc checkout "$NTIRPC_COMMIT_ID"
