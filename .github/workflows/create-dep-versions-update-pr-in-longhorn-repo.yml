@@ -37,9 +37,9 @@ jobs:
 
           # Install Helm
           curl -fsSL -o /tmp/get_helm.sh \
-            https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+            https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-4
           chmod 700 /tmp/get_helm.sh
-          DESIRED_VERSION=v3.20.2 /tmp/get_helm.sh
+          DESIRED_VERSION=v4.3.0 /tmp/get_helm.sh
 
       - name: Set workflow variables
         run: |
