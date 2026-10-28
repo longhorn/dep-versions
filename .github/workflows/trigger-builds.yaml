@@ -84,7 +84,7 @@ jobs:
           token: ${{ steps.app-token.outputs.token }}
           workflow: build.yml
           repo: longhorn/longhorn-spdk-engine
-          ref: main
+          ref: ${{ steps.set-ref.outputs.ref }}
 
       - name: Trigger build in go-spdk-helper
         uses: benc-uk/workflow-dispatch@7a027648b88c2413826b6ddd6c76114894dc5ec4 # v1
