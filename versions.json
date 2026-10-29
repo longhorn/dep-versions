@@ -19,8 +19,8 @@
   },
   "go-spdk-helper": {
     "repo": "https://github.com/longhorn/go-spdk-helper.git",
-    "commit": "a05c9cacc60cd926daa0af52d24ed5490cdd5956",
-    "tag": "v0.13.0",
+    "commit": "fbec96a41518e448a945d243bafc88c35970c558",
+    "tag": "v0.14.0",
     "description": "go-spdk-helper is a Go wrapper for SPDK."
   },
   "libjsonc": {
