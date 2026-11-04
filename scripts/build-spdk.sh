@@ -26,6 +26,12 @@ if [[ -n "$COMMIT_ID_OVERRIDE" ]]; then
     SPDK_COMMIT_ID="$COMMIT_ID_OVERRIDE"
 fi
 
+# Optional extra ./configure arguments, e.g. SPDK_EXTRA_CONFIGURE_ARGS="--enable-asan"
+read -r -a EXTRA_CONFIGURE_ARGS <<< "${SPDK_EXTRA_CONFIGURE_ARGS:-}"
+if [[ ${#EXTRA_CONFIGURE_ARGS[@]} -gt 0 ]]; then
+    echo "Extra SPDK configure arguments: ${EXTRA_CONFIGURE_ARGS[*]}"
+fi
+
 # Clone the repository
 git clone --recursive "$SPDK_REPO" "$SRC_DIR"
 
@@ -44,12 +50,12 @@ pip3 install -r ./scripts/pkgdep/requirements.txt
 # Build and install based on architecture
 case "$ARCH" in
     amd64)
-        ./configure --target-arch=nehalem --disable-tests --disable-unit-tests --disable-examples --with-ublk --with-rdma --enable-debug
+        ./configure --target-arch=nehalem --disable-tests --disable-unit-tests --disable-examples --with-ublk --with-rdma --enable-debug ${EXTRA_CONFIGURE_ARGS[@]+"${EXTRA_CONFIGURE_ARGS[@]}"}
         make -j"$(nproc)"
         make install
         ;;
     arm64)
-        CFLAGS="-march=armv8-a" CC="gcc-13" ./configure --target-arch=armv8-a --disable-tests --disable-unit-tests --disable-examples --with-ublk --with-rdma --enable-debug
+        CFLAGS="-march=armv8-a" CC="gcc-13" ./configure --target-arch=armv8-a --disable-tests --disable-unit-tests --disable-examples --with-ublk --with-rdma --enable-debug ${EXTRA_CONFIGURE_ARGS[@]+"${EXTRA_CONFIGURE_ARGS[@]}"}
         DPDKBUILD_FLAGS="-Dplatform=generic" make -j"$(nproc)"
         make install
         ;;
