@@ -61,7 +61,7 @@
   },
   "csi-attacher": {
     "repo": "https://github.com/kubernetes-csi/external-attacher.git",
-    "tag": "v4.13.1"
+    "tag": "v4.13.1-20261126"
   },
   "csi-provisioner": {
     "repo": "https://github.com/kubernetes-csi/external-provisioner.git",
@@ -73,7 +73,7 @@
   },
   "csi-snapshotter": {
     "repo": "https://github.com/kubernetes-csi/external-snapshotter.git",
-    "tag": "v8.7.1"
+    "tag": "v8.7.1-20261126"
   },
   "csi-node-driver-registrar": {
     "repo": "https://github.com/kubernetes-csi/node-driver-registrar.git",
